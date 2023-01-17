@@ -1,38 +1,62 @@
 .App {
+  font-family:sans-serif;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.profile-pic{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App > div:nth-child(1) > .profile-pic{
+  border-radius: 0%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.addcolor{
+  display: flex;
+  
+}
+.book-container {
+  width: 350px;
+}
+
+.book-spec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.book-name {
+  font-size: 24px;
+  margin: 0;
+}
+
+.book-summary {
+  margin: 0;
+}
+
+.book-poster {
+  width: 350px;
+  height: 500px;
+  object-fit: cover;
+}
+
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.add-book-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar{
+  text-align: left;
 }
