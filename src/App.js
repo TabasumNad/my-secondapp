@@ -3,10 +3,14 @@ import './App.css';
 import { useState } from 'react';
 import { Counter } from './Counter';
 import {AddColor} from './AddColor';
-import {Routes, Route, Link, useNavigate, useParams} from "react-router-dom"
+import {Routes, Route, Link, useNavigate, useParams} from "react-router-dom";
 import { UserList } from './UserList';
 import { Home } from './Home';
-
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 const INITIAL_BOOK_LIST = [
@@ -125,38 +129,70 @@ function BookList(){
   return (
     <div>
       <div className="add-book-form">
-        <input
+
+      <TextField id="standard-basic" label="Enter a name" variant="standard" 
+      onChange={(event) => setName(event.target.value)}
+      />
+
+
+        {/* <input
           onChange={(event) => setName(event.target.value)}
           type="text"
           placeholder="Enter a name"
-        />
-        <input
+        /> */}
+<TextField id="standard-basic" label="Enter a poster" variant="standard" 
+      onChange={(event) => setPoster(event.target.value)}
+      />
+        
+        {/* <input
           onChange={(event) => setPoster(event.target.value)}
           type="text"
           placeholder="Enter a poster"
-        />
-        <input
+        /> */}
+
+<TextField id="standard-basic" label="Enter a rating" variant="standard" 
+      onChange={(event) => setRating(event.target.value)}
+      />
+        {/* <input
           onChange={(event) => setRating(event.target.value)}
           type="text"
           placeholder="Enter a rating"
-        />
-        <input
+        /> */}
+
+<TextField id="standard-basic" label="Enter a summary" variant="standard" 
+      onChange={(event) => setSummary(event.target.value)}
+      />  
+        {/* <input
           onChange={(event) => setSummary(event.target.value)}
           type="text"
           placeholder="Enter a summary"
-        />
+        /> */}
         </div>
 
-        <button onClick={() => {
+        <Button variant="outlined" 
+        onClick={() => {
+          const newBook = {
+            name: name,
+            poster: poster,
+            rating: rating,
+            summary: summary,
+          };
+          // {/* //copy the bookList and add newBook to it */}
+          setBookList([...bookList, newBook]);
+        }}>Add Book</Button>
+
+        {/* <button onClick={() => {
             const newBook = {
               name: name,
               poster: poster,
               rating: rating,
               summary: summary,
             };
-            // {/* //copy the bookList and add newBook to it */}
+            // {/* //copy the bookList and add newBook to it
             setBookList([...bookList, newBook]);
-          }}>Add Book</button>
+          }}>Add Book</button>  */}
+          
+
        
 
     <div className='book-list'>
@@ -194,8 +230,18 @@ function Book({book, id})
       <p  style={styles}className="book-rating">⭐{book.rating}
       </p>
     </div>
+
+    <IconButton aria-label="toggle-description"  
+     onClick={()=>setShow(!show)}
+     color="primary"
+
+    >
+   { show?<ExpandLessIcon/>:<ExpandMoreIcon/>}  
+     
+      </IconButton>
+
     {/* button for toggle */}
-    <button onClick={()=>setShow(!show)}>Toggle Summary</button>
+    {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
     {/* Adding info button */}
     <button onClick={()=> navigate("/book/"+id)}>Info</button>
 
