@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InfoIcon from '@mui/icons-material/Info';
 
 
 const INITIAL_BOOK_LIST = [
@@ -234,16 +235,21 @@ function Book({book, id})
     <IconButton aria-label="toggle-description"  
      onClick={()=>setShow(!show)}
      color="primary"
-
-    >
+ >
    { show?<ExpandLessIcon/>:<ExpandMoreIcon/>}  
-     
+      </IconButton>
+
+  <IconButton aria-label="information"  
+     onClick={()=> navigate("/book/"+id)}
+     color="primary"
+ >
+   <InfoIcon/>
       </IconButton>
 
     {/* button for toggle */}
     {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
     {/* Adding info button */}
-    <button onClick={()=> navigate("/book/"+id)}>Info</button>
+    {/* <button onClick={()=> navigate("/book/"+id)}>Info</button> */}
 
     {/* <p style={summaryStyle} className='book-summary'>
       {book.summary}</p> */}
