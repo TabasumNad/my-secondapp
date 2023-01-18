@@ -97,7 +97,7 @@ function App() {
   <Route path="/book" element={<BookList />}></Route>
   <Route path="/color-game" element={<AddColor />}></Route>
   <Route path="/users" element={<UserList />}></Route>
-  <Route path="/book/:bookid" element={<BookDetail />}></Route>
+  {/* <Route path="/book/:bookid" element={<BookDetail />}></Route> */}
   
 
   </Routes>
@@ -114,14 +114,57 @@ function BookDetail()
 }
 
 function BookList(){
-  const bookList = INITIAL_BOOK_LIST;
-  return(
+  // const bookList = INITIAL_BOOK_LIST;
+
+  const [bookList, setBookList] = useState(INITIAL_BOOK_LIST);
+  const [name, setName] = useState("");
+  const [poster, setPoster] = useState("");
+  const [rating, setRating] = useState("");
+  const [summary, setSummary] = useState("");
+
+  return (
+    <div>
+      <div className="add-book-form">
+        <input
+          onChange={(event) => setName(event.target.value)}
+          type="text"
+          placeholder="Enter a name"
+        />
+        <input
+          onChange={(event) => setPoster(event.target.value)}
+          type="text"
+          placeholder="Enter a poster"
+        />
+        <input
+          onChange={(event) => setRating(event.target.value)}
+          type="text"
+          placeholder="Enter a rating"
+        />
+        <input
+          onChange={(event) => setSummary(event.target.value)}
+          type="text"
+          placeholder="Enter a summary"
+        />
+        </div>
+
+        <button onClick={() => {
+            const newBook = {
+              name: name,
+              poster: poster,
+              rating: rating,
+              summary: summary,
+            };
+            // {/* //copy the bookList and add newBook to it */}
+            setBookList([...bookList, newBook]);
+          }}>Add Book</button>
+       
+
     <div className='book-list'>
         {bookList.map((bk,index)=>(
         <Book key={index} book={bk} id={index}/>
         ))}
    </div>
-
+   </div>
   )
 }
 
