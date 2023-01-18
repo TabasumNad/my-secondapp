@@ -3,7 +3,7 @@ import './App.css';
 import { useState } from 'react';
 import { Counter } from './Counter';
 import {AddColor} from './AddColor';
-import {Routes, Route, Link, useNavigate} from "react-router-dom"
+import {Routes, Route, Link, useNavigate, useParams} from "react-router-dom"
 import { UserList } from './UserList';
 import { Home } from './Home';
 
@@ -97,6 +97,8 @@ function App() {
   <Route path="/book" element={<BookList />}></Route>
   <Route path="/color-game" element={<AddColor />}></Route>
   <Route path="/users" element={<UserList />}></Route>
+  <Route path="/book/:bookid" element={<BookDetail />}></Route>
+  
 
   </Routes>
     </div>
@@ -104,19 +106,26 @@ function App() {
 }
 
 
+function BookDetail()
+{
+  const {bookid}=useParams();
+  return <div>Book Detail Page of {bookid}</div>
+  
+}
+
 function BookList(){
   const bookList = INITIAL_BOOK_LIST;
   return(
     <div className='book-list'>
         {bookList.map((bk,index)=>(
-        <Book key={index} book={bk}/>
+        <Book key={index} book={bk} id={index}/>
         ))}
    </div>
 
   )
 }
 
-function Book({book})
+function Book({book, id})
 
 {
   const [show,setShow]=useState(true);
@@ -138,14 +147,14 @@ function Book({book})
     <div className="book-container">
     <img className="book-poster" src={book.poster} alt={book.name} />
     <div className="book-spec">
-      <h2 className="book-name">{book.name}</h2>
+      <h2 className="book-name">{book.name}-{id}</h2>
       <p  style={styles}className="book-rating">⭐{book.rating}
       </p>
     </div>
     {/* button for toggle */}
     <button onClick={()=>setShow(!show)}>Toggle Summary</button>
     {/* Adding info button */}
-    <button onClick={()=> navigate("/")}>Info</button>
+    <button onClick={()=> navigate("/book/"+id)}>Info</button>
 
     {/* <p style={summaryStyle} className='book-summary'>
       {book.summary}</p> */}
