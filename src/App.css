@@ -60,3 +60,6 @@
 .navbar{
   text-align: left;
 }
+.book-detail-container {
+  max-width: 800px;
+}

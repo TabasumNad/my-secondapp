@@ -1,17 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
-import { Counter } from './Counter';
 import {AddColor} from './AddColor';
-import {Routes, Route, Link, useNavigate, useParams} from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { UserList } from './UserList';
 import { Home } from './Home';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import InfoIcon from '@mui/icons-material/Info';
+import { BookList } from './BookList';
+import { BookDetail } from './BookDetail';
+import { AddBook } from './AddBook';
 
 
 const INITIAL_BOOK_LIST = [
@@ -22,6 +18,7 @@ const INITIAL_BOOK_LIST = [
     rating: 8.8,
     summary:
       "The novel tells the story of a livestock pig named Wilbur and his friendship with a barn spider named Charlotte. When Wilbur is in danger of being slaughtered by the farmer, Charlotte writes messages praising Wilbur in her web in order to persuade the farmer to let him live.",
+      trailer: "https://www.youtube.com/embed/zS3qOr0zAJg",
   },
   {
     name: "The power of your subconscious mind",
@@ -76,6 +73,9 @@ const INITIAL_BOOK_LIST = [
 ];
 
 function App() {
+
+  const [bookList, setBookList] = useState(INITIAL_BOOK_LIST);
+
   return (
     <div className="App">
 
@@ -94,16 +94,26 @@ function App() {
           <li>
             <Link to='/users'>UserList</Link>
           </li>
+          <li>
+            <Link to='/book/add'>AddBook</Link>
+          </li>
         </ul>
       </nav>
 
       <Routes>
   <Route path="/" element={<Home />}></Route>
-  <Route path="/book" element={<BookList />}></Route>
+  <Route path="/book" element={<BookList bookList={bookList} setBookList={setBookList}/>}></Route>
   <Route path="/color-game" element={<AddColor />}></Route>
   <Route path="/users" element={<UserList />}></Route>
-  {/* <Route path="/book/:bookid" element={<BookDetail />}></Route> */}
+  <Route path="/book/:bookid" element={<BookDetail bookList={bookList}/>}></Route>
   
+  <Route path="/novel" element={<Navigate replace to="/book" />}></Route>
+  <Route path="/404" element={<NotFoundPage/>}></Route>
+  <Route path="*" element={<Navigate replace to="/404" />}></Route>
+
+  
+  <Route path="/book/add" element={<AddBook bookList={bookList} setBookList={setBookList}/>}></Route>
+  {/* <Route path="*" element={<Navigate replace to="/404" />}></Route> */}
 
   </Routes>
     </div>
@@ -111,153 +121,13 @@ function App() {
 }
 
 
-function BookDetail()
+function NotFoundPage()
 {
-  const {bookid}=useParams();
-  return <div>Book Detail Page of {bookid}</div>
-  
-}
-
-function BookList(){
-  // const bookList = INITIAL_BOOK_LIST;
-
-  const [bookList, setBookList] = useState(INITIAL_BOOK_LIST);
-  const [name, setName] = useState("");
-  const [poster, setPoster] = useState("");
-  const [rating, setRating] = useState("");
-  const [summary, setSummary] = useState("");
-
-  return (
-    <div>
-      <div className="add-book-form">
-
-      <TextField id="standard-basic" label="Enter a name" variant="standard" 
-      onChange={(event) => setName(event.target.value)}
-      />
-
-
-        {/* <input
-          onChange={(event) => setName(event.target.value)}
-          type="text"
-          placeholder="Enter a name"
-        /> */}
-<TextField id="standard-basic" label="Enter a poster" variant="standard" 
-      onChange={(event) => setPoster(event.target.value)}
-      />
-        
-        {/* <input
-          onChange={(event) => setPoster(event.target.value)}
-          type="text"
-          placeholder="Enter a poster"
-        /> */}
-
-<TextField id="standard-basic" label="Enter a rating" variant="standard" 
-      onChange={(event) => setRating(event.target.value)}
-      />
-        {/* <input
-          onChange={(event) => setRating(event.target.value)}
-          type="text"
-          placeholder="Enter a rating"
-        /> */}
-
-<TextField id="standard-basic" label="Enter a summary" variant="standard" 
-      onChange={(event) => setSummary(event.target.value)}
-      />  
-        {/* <input
-          onChange={(event) => setSummary(event.target.value)}
-          type="text"
-          placeholder="Enter a summary"
-        /> */}
-        </div>
-
-        <Button variant="outlined" 
-        onClick={() => {
-          const newBook = {
-            name: name,
-            poster: poster,
-            rating: rating,
-            summary: summary,
-          };
-          // {/* //copy the bookList and add newBook to it */}
-          setBookList([...bookList, newBook]);
-        }}>Add Book</Button>
-
-        {/* <button onClick={() => {
-            const newBook = {
-              name: name,
-              poster: poster,
-              rating: rating,
-              summary: summary,
-            };
-            // {/* //copy the bookList and add newBook to it
-            setBookList([...bookList, newBook]);
-          }}>Add Book</button>  */}
-          
-
-       
-
-    <div className='book-list'>
-        {bookList.map((bk,index)=>(
-        <Book key={index} book={bk} id={index}/>
-        ))}
-   </div>
-   </div>
-  )
-}
-
-function Book({book, id})
-
-{
-  const [show,setShow]=useState(true);
-
-  const styles={ 
-    color:book.rating>8?"green":"red"
-  };
-  
-  const navigate=useNavigate()
-
-  // true:visible
-  // false:hide
-  const summaryStyle = {
-    display :show ? "block" : "none",
-  };
-
-
   return(
-    <div className="book-container">
-    <img className="book-poster" src={book.poster} alt={book.name} />
-    <div className="book-spec">
-      <h2 className="book-name">{book.name}-{id}</h2>
-      <p  style={styles}className="book-rating">⭐{book.rating}
-      </p>
+    <div>
+      <img src='https://cdn.dribbble.com/users/1175431/screenshots/6188233/404-error-dribbble-800x600.gif'/>
     </div>
-
-    <IconButton aria-label="toggle-description"  
-     onClick={()=>setShow(!show)}
-     color="primary"
- >
-   { show?<ExpandLessIcon/>:<ExpandMoreIcon/>}  
-      </IconButton>
-
-  <IconButton aria-label="information"  
-     onClick={()=> navigate("/book/"+id)}
-     color="primary"
- >
-   <InfoIcon/>
-      </IconButton>
-
-    {/* button for toggle */}
-    {/* <button onClick={()=>setShow(!show)}>Toggle Summary</button> */}
-    {/* Adding info button */}
-    {/* <button onClick={()=> navigate("/book/"+id)}>Info</button> */}
-
-    {/* <p style={summaryStyle} className='book-summary'>
-      {book.summary}</p> */}
-      {/* conditional rendering */}
-      {show ? <p  className='book-summary'>{book.summary}</p> :""}
-    <Counter/>
-    </div>
-  )
-  }
+  );
+}
 
 export default App;
