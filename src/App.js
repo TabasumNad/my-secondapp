@@ -2,12 +2,21 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import {AddColor} from './AddColor';
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link, Navigate , useNavigate} from "react-router-dom";
 import { UserList } from './UserList';
 import { Home } from './Home';
 import { BookList } from './BookList';
 import { BookDetail } from './BookDetail';
 import { AddBook } from './AddBook';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { Button } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline"
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 
 
 const INITIAL_BOOK_LIST = [
@@ -72,15 +81,66 @@ const INITIAL_BOOK_LIST = [
   },
 ];
 
+
+
+
 function App() {
 
   const [bookList, setBookList] = useState(INITIAL_BOOK_LIST);
-
+  const [mode,setMode]=useState("light");
+  const theme = createTheme({
+    palette: {
+      mode:mode,
+    },
+  });
+  const navigate = useNavigate();
   return (
-    <div className="App">
+    // <div className="App">
+
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" onClick={() => navigate("/")}>
+              Home
+            </Button>
+            <Button color="inherit" onClick={() => navigate("/book")}>
+              BookList
+            </Button>
+            <Button color="inherit" onClick={() => navigate("/book/add")}>
+              AddBook
+            </Button>
+            <Button color="inherit" onClick={() => navigate("/color-game")}>
+              AddColor
+            </Button>
+            <Button color="inherit" onClick={() => navigate("/users")}>
+              UserList
+            </Button>
+
+
+
+      <Button   
+            
+      startIcon=
+      { mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />
+    }
+          
+    onClick={() => setMode(mode=="light"?"dark":"light")} color="inherit">
+      
+      {mode=="light"?"dark":"light"} Mode
+      </Button>
+  
+
+
+            {/* <Button color="inherit" onClick={() => setMode(mode=="light"?"dark":"light")}>
+              Light Mode
+            </Button> */}
+          </Toolbar>
+        </AppBar>
 
 {/* "Link to" change the page without refresh  */}
-      <nav  className='navbar'>
+      {/* <nav  className='navbar'>
         <ul>
           <li>
             <Link to='/'>Home</Link>
@@ -98,7 +158,7 @@ function App() {
             <Link to='/book/add'>AddBook</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       <Routes>
   <Route path="/" element={<Home />}></Route>
@@ -117,6 +177,7 @@ function App() {
 
   </Routes>
     </div>
+    </ThemeProvider>
   );
 }
 
