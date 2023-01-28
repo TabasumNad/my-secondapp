@@ -1,12 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useEffect, useState } from "react";
+import { API } from "./global";
 
-export function BookDetail({ bookList }) {
+export function BookDetail() {
+  const [book, setBook] = useState({});
   const { bookid } = useParams();
-  const book = bookList[bookid];
+  // console.log(bookList);
+  // const book = bookList[bookid];
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`${API}/books/${bookid}`, {
+      method: "GET",
+    })
+      .then((data) => data.json())
+      .then((bk) => setBook(bk));
+  }, []);
 
   return (
     <div>
@@ -19,25 +31,21 @@ export function BookDetail({ bookList }) {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
       ></iframe>
+      <div className="book-detail-container">
+        <div className="book-spec">
+          <h2 className="book-name">{book.name}</h2>
+          <p className="book-rating">⭐{book.rating}</p>
+        </div>
 
-<div className="book-detail-container">
-      <div className="book-spec">
-        <h2 className="book-name">{book.name}</h2>
-        <p  className="book-rating">⭐{book.rating}</p>
-      </div>
-
-<p className="book-summary">{book.summary}</p>
-<Button
+        <p className="book-summary">{book.summary}</p>
+        <Button
           variant="contained"
           startIcon={<ArrowBackIosIcon />}
           onClick={() => navigate(-1)}
         >
           BACK
         </Button>
-     </div> 
-
-
-  </div>
-  )
-
+      </div>
+    </div>
+  );
 }
